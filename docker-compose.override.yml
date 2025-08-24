@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  java-auth:
+    volumes:
+      - ./services/java-auth:/app
+    environment:
+      - SPRING_PROFILES_ACTIVE=dev
+      - SPRING_DEVTOOLS_RESTART_ENABLED=true
+
+  go-iot:
+    volumes:
+      - ./services/go-iot:/app
+    environment:
+      - GIN_MODE=debug
+
+  python-socket:
+    volumes:
+      - ./services/python-socket:/app
+    environment:
+      - PYTHONDONTWRITEBYTECODE=1
+      - PYTHONUNBUFFERED=1
+    command: ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8082", "--reload"]

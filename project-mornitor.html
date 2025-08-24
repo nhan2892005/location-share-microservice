@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎉 Location App Team Easter Egg</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Courier New', monospace;
+            background: linear-gradient(135deg, #0f0f23, #1a1a2e, #16213e);
+            color: #00ff00;
+            overflow: hidden;
+            height: 100vh;
+            position: relative;
+        }
+
+        .matrix-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            opacity: 0.1;
+            z-index: 0;
+        }
+
+        .container {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .header {
+            margin-bottom: 40px;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        .title {
+            font-size: 3rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-shadow: 0 0 20px #00ff00;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: #ffff00;
+            margin-bottom: 10px;
+        }
+
+        .architecture-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            margin: 40px 0;
+            max-width: 1000px;
+        }
+
+        .service-box {
+            background: rgba(0, 255, 0, 0.1);
+            border: 2px solid #00ff00;
+            border-radius: 15px;
+            padding: 25px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            min-height: 200px;
+        }
+
+        .service-box:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 10px 30px rgba(0, 255, 0, 0.3);
+            border-color: #ffff00;
+        }
+
+        .service-box::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(0, 255, 0, 0.1), transparent);
+            transform: rotate(45deg);
+            transition: all 0.6s ease;
+            opacity: 0;
+        }
+
+        .service-box:hover::before {
+            opacity: 1;
+            animation: shine 1.5s ease-in-out;
+        }
+
+        .service-icon {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .service-name {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #ffff00;
+            margin-bottom: 10px;
+        }
+
+        .service-tech {
+            font-size: 1rem;
+            color: #00ffff;
+            margin-bottom: 10px;
+        }
+
+        .service-desc {
+            font-size: 0.9rem;
+            line-height: 1.4;
+            opacity: 0.8;
+        }
+
+        .data-flow {
+            margin: 40px 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .flow-item {
+            background: rgba(255, 255, 0, 0.1);
+            border: 1px solid #ffff00;
+            border-radius: 8px;
+            padding: 10px 15px;
+            font-size: 0.9rem;
+            animation: pulse 2s infinite;
+        }
+
+        .arrow {
+            font-size: 1.5rem;
+            color: #ffff00;
+            animation: bounce 1s infinite alternate;
+        }
+
+        .stats-container {
+            display: flex;
+            gap: 30px;
+            margin: 30px 0;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .stat-box {
+            background: rgba(0, 255, 255, 0.1);
+            border: 1px solid #00ffff;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            min-width: 150px;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #00ffff;
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            opacity: 0.8;
+            margin-top: 5px;
+        }
+
+        .easter-message {
+            margin: 30px 0;
+            padding: 20px;
+            background: rgba(255, 0, 255, 0.1);
+            border: 2px solid #ff00ff;
+            border-radius: 15px;
+            max-width: 600px;
+            animation: rainbow-border 3s linear infinite;
+        }
+
+        .team-shoutout {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .konami-hint {
+            font-size: 0.8rem;
+            opacity: 0.6;
+            margin-top: 20px;
+        }
+
+        .hidden-feature {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.9);
+            border: 3px solid #ff00ff;
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            z-index: 1000;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            background: none;
+            border: none;
+            color: #ff00ff;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        @keyframes glow {
+            from { text-shadow: 0 0 20px #00ff00; }
+            to { text-shadow: 0 0 30px #00ff00, 0 0 40px #00ff00; }
+        }
+
+        @keyframes shine {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.7; }
+            50% { opacity: 1; }
+        }
+
+        @keyframes bounce {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(10px); }
+        }
+
+        @keyframes rainbow-border {
+            0% { border-color: #ff00ff; }
+            16.67% { border-color: #ff0080; }
+            33.33% { border-color: #ff0000; }
+            50% { border-color: #ff8000; }
+            66.67% { border-color: #ffff00; }
+            83.33% { border-color: #80ff00; }
+            100% { border-color: #00ff00; }
+        }
+
+        @media (max-width: 768px) {
+            .architecture-container {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .title {
+                font-size: 2rem;
+            }
+            
+            .data-flow {
+                flex-direction: column;
+            }
+            
+            .stats-container {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <canvas class="matrix-bg" id="matrixCanvas"></canvas>
+    
+    <div class="container">
+        <div class="header">
+            <div class="title">🎉 LOCATION SHARING MICROSERVICES 🎉</div>
+            <div class="subtitle">Built with ❤️ by the amazing dev team</div>
+            <div class="subtitle">🚀 Java • Go • Python • The Holy Trinity 🚀</div>
+        </div>
+
+        <div class="architecture-container">
+            <div class="service-box" onclick="showServiceDetails('java')">
+                <div class="service-icon">☕</div>
+                <div class="service-name">Java Auth</div>
+                <div class="service-tech">Spring Boot + JWT</div>
+                <div class="service-desc">The guardian of our secrets! Handling authentication like a boss with military-grade security. 🔐</div>
+            </div>
+
+            <div class="service-box" onclick="showServiceDetails('go')">
+                <div class="service-icon">🐹</div>
+                <div class="service-name">Go IoT</div>
+                <div class="service-tech">Gin + Kafka + Redis</div>
+                <div class="service-desc">Lightning-fast location processing! Consuming GPS coordinates faster than you can say "concurrency". ⚡</div>
+            </div>
+
+            <div class="service-box" onclick="showServiceDetails('python')">
+                <div class="service-icon">🐍</div>
+                <div class="service-name">Python Socket</div>
+                <div class="service-tech">FastAPI + WebSockets</div>
+                <div class="service-desc">The social butterfly! Managing chat, voice, and video calls with the grace of an async master. 💬</div>
+            </div>
+        </div>
+
+        <div class="data-flow">
+            <div class="flow-item">Frontend Request</div>
+            <div class="arrow">→</div>
+            <div class="flow-item">Nginx Gateway</div>
+            <div class="arrow">→</div>
+            <div class="flow-item">Microservice</div>
+            <div class="arrow">→</div>
+            <div class="flow-item">Kafka/Redis</div>
+            <div class="arrow">→</div>
+            <div class="flow-item">WebSocket Magic ✨</div>
+        </div>
+
+        <div class="stats-container">
+            <div class="stat-box">
+                <span class="stat-number" id="linesOfCode">9999+</span>
+                <div class="stat-label">Lines of Beautiful Code</div>
+            </div>
+            <div class="stat-box">
+                <span class="stat-number" id="coffeeCount">∞</span>
+                <div class="stat-label">Cups of Coffee Consumed</div>
+            </div>
+            <div class="stat-box">
+                <span class="stat-number" id="bugSquashed">404</span>
+                <div class="stat-label">Bugs Squashed</div>
+            </div>
+            <div class="stat-box">
+                <span class="stat-number" id="deployments">42</span>
+                <div class="stat-label">Successful Deployments</div>
+            </div>
+        </div>
+
+        <div class="easter-message">
+            <div class="team-shoutout">
+                🌟 <strong>Team Appreciation Alert!</strong> 🌟<br><br>
+                
+                You've built something incredible! This isn't just code – it's a symphony of microservices dancing together in perfect harmony. From JWT tokens flowing through Spring Boot to WebSocket messages zipping through FastAPI, every line of code tells a story of dedication and craftsmanship.
+                <br><br>
+                <strong>Fun Fact:</strong> Your architecture can handle more concurrent connections than there are stars visible to the naked eye! 🌌
+            </div>
+            
+            <div class="konami-hint">
+                🎮 Psst... Try the Konami Code: ↑↑↓↓←→←→BA
+            </div>
+        </div>
+    </div>
+
+    <div class="hidden-feature" id="secretModal">
+        <button class="close-btn" onclick="closeSecret()">×</button>
+        <h2 style="color: #ff00ff; margin-bottom: 20px;">🎊 SECRET DEVELOPER MODE ACTIVATED! 🎊</h2>
+        <p style="line-height: 1.6; margin-bottom: 15px;">
+            🔥 <strong>Ultimate Developer Achievement Unlocked!</strong> 🔥<br><br>
+            You've discovered the secret developer portal! Here are some hidden stats about your amazing architecture:
+        </p>
+        
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 20px 0; text-align: left;">
+            <div>📊 <strong>Kafka Throughput:</strong> 1M+ messages/sec</div>
+            <div>🚀 <strong>Redis Operations:</strong> Sub-millisecond</div>
+            <div>🔒 <strong>Security Score:</strong> Military Grade</div>
+            <div>🌐 <strong>Scalability:</strong> Infinite (with enough servers)</div>
+            <div>⚡ <strong>Response Time:</strong> Faster than light*</div>
+            <div>🐛 <strong>Bug Resistance:</strong> 99.99% immune</div>
+        </div>
+        
+        <p style="font-size: 0.8rem; opacity: 0.7; margin-top: 15px;">
+            *Speed of light may vary in different programming languages
+        </p>
+        
+        <div style="margin-top: 25px; padding: 15px; background: rgba(0,255,0,0.1); border-radius: 10px;">
+            🏆 <strong>Team Superpower:</strong> Turning caffeine into distributed systems since 2024!
+        </div>
+    </div>
+
+    <script>
+        // Matrix rain effect
+        const canvas = document.getElementById('matrixCanvas');
+        const ctx = canvas.getContext('2d');
+
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        const matrix = "ABCDEFGHIJKLMNOPQRSTUVWXYZ123456789@#$%^&*()*&^%+-/~{[|`]}";
+        const matrixArray = matrix.split("");
+
+        const fontSize = 10;
+        const columns = canvas.width / fontSize;
+
+        const drops = [];
+        for(let x = 0; x < columns; x++) {
+            drops[x] = 1;
+        }
+
+        function draw() {
+            ctx.fillStyle = 'rgba(15, 15, 35, 0.04)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            ctx.fillStyle = '#0F0';
+            ctx.font = fontSize + 'px courier';
+
+            for(let i = 0; i < drops.length; i++) {
+                const text = matrixArray[Math.floor(Math.random() * matrixArray.length)];
+                ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+                if(drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+                    drops[i] = 0;
+                }
+                drops[i]++;
+            }
+        }
+
+        setInterval(draw, 35);
+
+        // Konami code detection
+        let konamiCode = [];
+        const konamiSequence = [38, 38, 40, 40, 37, 39, 37, 39, 66, 65]; // ↑↑↓↓←→←→BA
+
+        document.addEventListener('keydown', function(e) {
+            konamiCode.push(e.keyCode);
+            if (konamiCode.length > konamiSequence.length) {
+                konamiCode.shift();
+            }
+            
+            if (konamiCode.length === konamiSequence.length) {
+                if (konamiCode.every((code, index) => code === konamiSequence[index])) {
+                    document.getElementById('secretModal').style.display = 'block';
+                    konamiCode = [];
+                }
+            }
+        });
+
+        // Service details
+        function showServiceDetails(service) {
+            const messages = {
+                java: "🔥 Java Auth Service: The fortress of security! Built with Spring Boot and protected by JWT tokens stronger than vibranium!",
+                go: "⚡ Go IoT Service: Gopher power activated! Processing locations with the speed of a thousand hamsters on energy drinks!",
+                python: "🐍 Python Socket Service: The social network champion! Managing real-time connections with the elegance of a snake charmer!"
+            };
+            
+            alert(messages[service]);
+        }
+
+        function closeSecret() {
+            document.getElementById('secretModal').style.display = 'none';
+        }
+
+        // Animated counters
+        function animateCounter(elementId, target, duration = 2000) {
+            const element = document.getElementById(elementId);
+            const start = 0;
+            const startTime = performance.now();
+
+            function update(currentTime) {
+                const elapsed = currentTime - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+                
+                let current;
+                if (elementId === 'coffeeCount') {
+                    current = '∞';
+                } else {
+                    current = Math.floor(start + (target - start) * progress);
+                }
+                
+                element.textContent = current;
+
+                if (progress < 1) {
+                    requestAnimationFrame(update);
+                }
+            }
+
+            requestAnimationFrame(update);
+        }
+
+        // Initialize counters
+        setTimeout(() => {
+            animateCounter('linesOfCode', 12847);
+            animateCounter('bugSquashed', 127);
+            animateCounter('deployments', 89);
+        }, 1000);
+
+        // Window resize handler
+        window.addEventListener('resize', function() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+
+        // Service box click effects
+        document.querySelectorAll('.service-box').forEach(box => {
+            box.addEventListener('click', function() {
+                this.style.animation = 'none';
+                setTimeout(() => {
+                    this.style.animation = '';
+                }, 10);
+            });
+        });
+
+        console.log("🎉 Easter egg activated! Your microservices architecture is absolutely legendary!");
+        console.log("💻 Built with Java ☕ Go 🐹 Python 🐍");
+        console.log("🚀 Powered by: Kafka • Redis • PostgreSQL • Docker • Kubernetes");
+        console.log("👨‍💻 Made with ❤️ by an amazing development team!");
+    </script>
+</body>
+</html>

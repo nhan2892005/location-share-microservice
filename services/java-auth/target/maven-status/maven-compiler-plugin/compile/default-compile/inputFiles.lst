@@ -1,0 +1,15 @@
+/workspaces/location-share-microservice/services/java-auth/src/main/java/com/locationapp/auth/security/JwtTokenProvider.java
+/workspaces/location-share-microservice/services/java-auth/src/main/java/com/locationapp/auth/dto/AuthResponse.java
+/workspaces/location-share-microservice/services/java-auth/src/main/java/com/locationapp/auth/repository/UserRepository.java
+/workspaces/location-share-microservice/services/java-auth/src/main/java/com/locationapp/auth/config/RedisConfig.java
+/workspaces/location-share-microservice/services/java-auth/src/main/java/com/locationapp/auth/dto/RefreshTokenRequest.java
+/workspaces/location-share-microservice/services/java-auth/src/main/java/com/locationapp/auth/AuthServiceApplication.java
+/workspaces/location-share-microservice/services/java-auth/src/main/java/com/locationapp/auth/dto/UserProfileResponse.java
+/workspaces/location-share-microservice/services/java-auth/src/main/java/com/locationapp/auth/dto/ApiResponse.java
+/workspaces/location-share-microservice/services/java-auth/src/main/java/com/locationapp/auth/dto/RegisterRequest.java
+/workspaces/location-share-microservice/services/java-auth/src/main/java/com/locationapp/auth/security/SecurityConfig.java
+/workspaces/location-share-microservice/services/java-auth/src/main/java/com/locationapp/auth/controller/AuthController.java
+/workspaces/location-share-microservice/services/java-auth/src/main/java/com/locationapp/auth/entity/User.java
+/workspaces/location-share-microservice/services/java-auth/src/main/java/com/locationapp/auth/service/AuthService.java
+/workspaces/location-share-microservice/services/java-auth/src/main/java/com/locationapp/auth/dto/LoginRequest.java
+/workspaces/location-share-microservice/services/java-auth/src/main/java/com/locationapp/auth/config/SecurityConfig.java

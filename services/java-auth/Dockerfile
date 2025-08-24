@@ -1,9 +1,13 @@
-FROM maven:3.9-eclipse-temurin-21 AS builder
+FROM maven:3.9.6-eclipse-temurin-21 AS builder
 WORKDIR /app
-COPY pom.xml .
-RUN mvn -q -e -DskipTests dependency:go-offline
+
+# Copy pom(s) trước để tận dụng cache
+COPY pom.xml ./
+RUN mvn -B -DskipTests dependency:go-offline
+
+# Copy source và build
 COPY src ./src
-RUN mvn -q -DskipTests package
+RUN mvn -B -DskipTests package
 
 FROM eclipse-temurin:21-jre
 WORKDIR /app

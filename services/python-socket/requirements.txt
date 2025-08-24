@@ -1,8 +1,6 @@
-# requirements.txt
 fastapi==0.104.1
 uvicorn[standard]==0.24.0
 websockets==12.0
-socketio==5.9.0
 python-socketio==5.9.0
 redis==5.0.1
 kafka-python==2.0.2

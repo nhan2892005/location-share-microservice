@@ -4,8 +4,12 @@ WORKDIR /app
 COPY go.mod go.sum ./
 RUN go mod download
 
+# Install build dependencies for CGO
+RUN apk add --no-cache build-base pkgconf
+
 COPY . .
-RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o main .
+# Enable CGO, add musl tag for Alpine, remove -installsuffix cgo (not needed here)
+RUN CGO_ENABLED=1 GOOS=linux go build -tags musl -a -o main .
 
 FROM alpine:latest
 RUN apk --no-cache add ca-certificates curl

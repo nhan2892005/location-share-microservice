@@ -13,7 +13,7 @@ import (
 
     "github.com/gin-gonic/gin"
     "github.com/go-redis/redis/v8"
-    "github.com/confluentinc/confluent-kafka-go/kafka"
+    "github.com/confluentinc/confluent-kafka-go/v2/kafka"
     "github.com/golang-jwt/jwt/v5"
     "github.com/gorilla/websocket"
     _ "github.com/lib/pq"
